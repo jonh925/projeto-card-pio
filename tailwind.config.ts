@@ -1,3 +1,4 @@
+import { nextui } from '@nextui-org/react'
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
@@ -14,7 +15,13 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
     },
+    
+    lightMode: "",
   },
-  plugins: [],
+  plugins: [
+    nextui({
+      
+    })
+  ],
 }
 export default config
