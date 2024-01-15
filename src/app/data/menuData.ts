@@ -17,7 +17,7 @@ export interface MenuItemType {
     {
       id: 2,
       name: 'Prato 2',
-      description: '"Lorem ipsum dolor sit amet, consectetur adipiscing e',
+      description: '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
       image: 'https://www.foodiesfeed.com/wp-content/uploads/2023/10/bowl-of-ice-cream-with-chocolate.jpg',
       price: 12.99,
     },
