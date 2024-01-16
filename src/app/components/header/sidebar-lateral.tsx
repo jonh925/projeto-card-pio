@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { AiFillStar, AiOutlineMenu, AiOutlineGift } from 'react-icons/ai';
 import { FaHamburger, FaUtensils, FaLeaf, FaCocktail } from 'react-icons/fa';
+import MenuList from '../List';  // Importe o componente MenuList
+import { MenuItemType } from '../../data/menuData';
 
 interface SidebarProps {
-  // Add any necessary props
+  menu: MenuItemType[];  // Adicione as propriedades necessárias
+  onAddToCart: (item: MenuItemType) => void;  // Adicione as propriedades necessárias
 }
 
-const SidebarLateral: React.FC<SidebarProps> = () => {
+const SidebarLateral: React.FC<SidebarProps> = ({ menu, onAddToCart }) => {
   const [submenuVisible, setSubmenuVisible] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
 
   const toggleSubmenu = () => {
     setSubmenuVisible(!submenuVisible);
@@ -16,7 +19,6 @@ const SidebarLateral: React.FC<SidebarProps> = () => {
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
-    // Additional logic to handle category selection (display item list, etc.)
   };
 
   return (
@@ -58,6 +60,9 @@ const SidebarLateral: React.FC<SidebarProps> = () => {
       <div className="cursor-pointer hover:bg-orange-500">
         <AiOutlineGift /> Ofertas
       </div>
+
+      {/* Renderiza o MenuList com a categoria selecionada */}
+      <MenuList menu={menu} onAddToCart={onAddToCart} categoryToSearch={selectedCategory} />
     </div>
   );
 };
