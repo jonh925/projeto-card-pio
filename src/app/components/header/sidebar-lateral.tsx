@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { AiFillStar, AiOutlineMenu, AiOutlineGift } from 'react-icons/ai';
 import { FaHamburger, FaUtensils, FaLeaf, FaCocktail } from 'react-icons/fa';
-import MenuList from '../List';  // Importe o componente MenuList
+import MenuList from '../List';
 import { MenuItemType } from '../../data/menuData';
 
 interface SidebarProps {
-  menu: MenuItemType[];  // Adicione as propriedades necessárias
-  onAddToCart: (item: MenuItemType) => void;  // Adicione as propriedades necessárias
+  menu: MenuItemType[];
+  onAddToCart: (item: MenuItemType) => void;
+  onCategoryClick: (category: string) => void;
 }
 
-const SidebarLateral: React.FC<SidebarProps> = ({ menu, onAddToCart }) => {
+const SidebarLateral: React.FC<SidebarProps> = ({ menu, onAddToCart, onCategoryClick }) => {
   const [submenuVisible, setSubmenuVisible] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
 
@@ -23,46 +24,43 @@ const SidebarLateral: React.FC<SidebarProps> = ({ menu, onAddToCart }) => {
 
   return (
     <div className="w-64 bg-gray-800 text-white p-4 h-screen flex flex-col">
-      <div className="cursor-pointer mb-4 hover:bg-orange-500" onClick={toggleSubmenu}>
-        <AiFillStar /> Destaque
+      <div className="cursor-pointer mb-4 hover:bg-orange-500">
+        <AiFillStar className="text-yellow-500 text-xl" /> <span className="text-lg">Destaque</span>
       </div>
       <div className="cursor-pointer mb-4 hover:bg-orange-500 relative" onClick={toggleSubmenu}>
-        <AiOutlineMenu /> Cardápio
+        <AiOutlineMenu className="text-blue-500 text-xl" /> <span className="text-lg">Cardápio</span>
         {submenuVisible && (
           <div className="absolute left-20 top-full bg-gray-800 text-white p-2">
             <div
-              className="cursor-pointer mb-2 hover:bg-orange-500"
-              onClick={() => handleCategoryClick('hamburguer')}
+              className="cursor-pointer mb-2 hover:bg-orange-500 square"
+              onClick={() => { onCategoryClick('hamburgers'); }}
             >
-              <FaHamburger /> Hambúrguer
+              <FaHamburger className="text-xl" /> <span className="text-lg">Hambúrguer</span>
             </div>
             <div
-              className="cursor-pointer mb-2 hover:bg-orange-500"
-              onClick={() => handleCategoryClick('prato')}
+              className="cursor-pointer mb-2 hover:bg-orange-500 square"
+              onClick={() => { onCategoryClick('main_dishes'); }}
             >
-              <FaUtensils /> Prato
+              <FaUtensils className="text-xl" /> <span className="text-lg">Prato</span>
             </div>
             <div
-              className="cursor-pointer mb-2 hover:bg-orange-500"
-              onClick={() => handleCategoryClick('saladas')}
+              className="cursor-pointer mb-2 hover:bg-orange-500 square"
+              onClick={() => { onCategoryClick('salads'); }}
             >
-              <FaLeaf /> Saladas
+              <FaLeaf className="text-xl" /> <span className="text-lg">Saladas</span>
             </div>
             <div
-              className="cursor-pointer mb-2 hover:bg-orange-500"
-              onClick={() => handleCategoryClick('aperitivos')}
+              className="cursor-pointer mb-2 hover:bg-orange-500 square"
+              onClick={() => { onCategoryClick('appetizers'); }}
             >
-              <FaCocktail /> Aperitivos
+              <FaCocktail className="text-xl" /> <span className="text-lg">Aperitivos</span>
             </div>
           </div>
         )}
       </div>
       <div className="cursor-pointer hover:bg-orange-500">
-        <AiOutlineGift /> Ofertas
+        <AiOutlineGift className="text-orange-500 text-xl" /> <span className="text-lg">Ofertas</span>
       </div>
-
-      {/* Renderiza o MenuList com a categoria selecionada */}
-      <MenuList menu={menu} onAddToCart={onAddToCart} categoryToSearch={selectedCategory} />
     </div>
   );
 };

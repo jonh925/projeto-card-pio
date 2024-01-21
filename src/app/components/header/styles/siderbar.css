@@ -1,0 +1,27 @@
+.square {
+    width: 40px; /* Set your desired width */
+    height: 40px; /* Set your desired height */
+  }
+  
+  .sidebar-icon {
+    font-size: 24px; /* Set your desired icon size */
+    margin-right: 8px; /* Adjust margin as needed */
+  }
+  
+  .sidebar-text {
+    font-size: 18px; /* Set your desired text size */
+  }
+  
+  /* Specific styles for Destaque, Cardápio, and Ofertas */
+  .destaque {
+    color: #FFD700; /* Set your desired color for highlight */
+  }
+  
+  .cardapio {
+    color: #00FFFF; /* Set your desired color for menu */
+  }
+  
+  .ofertas {
+    color: #FFA07A; /* Set your desired color for offers */
+  }
+  
