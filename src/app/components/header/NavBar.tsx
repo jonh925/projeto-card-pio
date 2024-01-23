@@ -1,19 +1,40 @@
 'use client'
-import React, { useState} from 'react';
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link as NextUILink } from "@nextui-org/react";
-import { Link } from 'react-router-dom';
-import { FaShoppingCart ,FaSearch} from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link as NextUILink, Badge } from "@nextui-org/react";
+import { FaShoppingCart, FaSearch } from 'react-icons/fa';
+import Cart from '../../components/Cart';
+import CartModal from '../../components/CartModal'; // Importe o CartModal
+import { useCart, CartItem } from '../../contexts/CartContext';
+
 const NavBar: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const { cart } = useCart();
+  const [cartItemCount, setCartItemCount] = useState(0);
+  const [isCartModalOpen, setCartModalOpen] = useState(false); // Adicione estado para controle do modal
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Implement your search logic here, e.g., navigate to a search results page
     console.log(`Searching for: ${searchTerm}`);
   };
+
+  const handleOpenCartModal = () => {
+    setCartModalOpen(true);
+  };
+
+  const handleCloseCartModal = () => {
+    setCartModalOpen(false);
+  };
+
+  useEffect(() => {
+    // Calculate cart item count when the cart changes
+    const itemCount = cart.items.length;
+    setCartItemCount(itemCount);
+  }, [cart]);
+
   return (
     <Navbar className="bg-gray-800 p-4">
       <NavbarBrand>
@@ -21,18 +42,7 @@ const NavBar: React.FC = () => {
       </NavbarBrand>
       <NavbarContent>
         <ul className="flex space-x-6">
-          <NavbarItem>
-            <NextUILink color="foreground" href="/" className="text-white hover:text-orange-500">Home</NextUILink>
-          </NavbarItem>
-          <NavbarItem>
-            <NextUILink color="foreground" href="/menu" className="text-white hover:text-orange-500">Menu</NextUILink>
-          </NavbarItem>
-          <NavbarItem>
-            <NextUILink color="foreground" href="/about" className="text-white hover:text-orange-500">About</NextUILink>
-          </NavbarItem>
-          <NavbarItem>
-            <NextUILink color="foreground" href="/contact" className="text-white hover:text-orange-500">Contact</NextUILink>
-          </NavbarItem>
+          {/* ... other NavbarItems */}
           <NavbarItem className="ml-auto">
             <form onSubmit={handleSearchSubmit} className="flex items-center">
               <FaSearch className="text-white mr-2" />
@@ -46,13 +56,24 @@ const NavBar: React.FC = () => {
             </form>
           </NavbarItem>
           <NavbarItem className="ml-auto">
-            <div className=''>
-            <FaShoppingCart className="text-white mr-2"/>
-            <span className="text-white">Meus Pedidos</span>
+            {/* Cart Icon with Count Indicator */}
+            <div className="relative" onClick={handleOpenCartModal}>
+              <FaShoppingCart className="text-white cursor-pointer" />
+              {cartItemCount > 0 && <Badge color="danger" className="absolute -top-1 -right-1">{cartItemCount}</Badge>}
             </div>
-        </NavbarItem>
+          </NavbarItem>
         </ul>
       </NavbarContent>
+
+      {/* Renderiza o CartModal */}
+      <CartModal open={isCartModalOpen} onClose={handleCloseCartModal} />
+
+      {/* Renderiza o componente Cart (pode ser removido se não for mais necessário) */}
+      <Cart
+        onAddToCart={() => {}}
+        onAddToCartNotification={() => {}}
+        onCartUpdate={() => {}} // Placeholder functions
+      />
     </Navbar>
   );
 };

@@ -1,23 +1,54 @@
-import React from 'react';
-import { useCart } from '../../app/contexts/CartContext';
+import React, { useState, useEffect } from 'react';
+import { useCart, CartItem } from '../../app/contexts/CartContext';
 import { Badge } from '@nextui-org/react';
 
-const Cart: React.FC = () => {
-  const { cart } = useCart();
-  //const [isInvisible, setIsInvisible] = React.useState(false);
+interface CartProps {
+  onAddToCart: (item: CartItem) => void;
+  onAddToCartNotification: () => void;
+  onCartUpdate?: () => void; // Adicionado para permitir atualizações no Navbar
+}
+
+const Cart: React.FC<CartProps> = ({ onAddToCart, onAddToCartNotification, onCartUpdate }) => {
+  const { cart, addItem } = useCart();
+  const [isNotificationVisible, setIsNotificationVisible] = useState(false);
+  const [notificationTimeout, setNotificationTimeout] = useState<number | null>(null);
+
+  const showNotification = () => {
+    setIsNotificationVisible(true);
+
+    const timeoutId = window.setTimeout(() => {
+      setIsNotificationVisible(false);
+    }, 3000);
+
+    setNotificationTimeout(timeoutId);
+  };
+
+  const handleAddToCart = (item: CartItem) => {
+    addItem(item);
+    showNotification();
+    onAddToCart(item);
+    onAddToCartNotification();
+    if (onCartUpdate) {
+      onCartUpdate(); // Chama a função de atualização do Navbar, se fornecida
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (notificationTimeout) {
+        clearTimeout(notificationTimeout);
+      }
+    };
+  }, [notificationTimeout]);
 
   if (!cart) {
-    return <p>Loading...</p>; // or any other fallback UI while the cart is being fetched
+    return <p>Loading...</p>;
   }
 
   return (
-    <Badge >
-      <h2>
-        Shopping Cart{' '}
-      </h2>
-      {cart.items.length === 0 ? (
-        <p>Your cart is empty.</p>
-      ) : (
+    <div>
+      {isNotificationVisible && <p>Item adicionado ao carrinho!</p>}
+      <Badge content={cart.items.length} size="sm">
         <div>
           {cart.items.map((item) => (
             <div key={item.id}>
@@ -26,8 +57,8 @@ const Cart: React.FC = () => {
             </div>
           ))}
         </div>
-      )}
-    </Badge>
+      </Badge>
+    </div>
   );
 };
 

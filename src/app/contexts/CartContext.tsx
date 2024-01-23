@@ -3,7 +3,7 @@ import React, { createContext, useReducer, useContext, ReactNode } from 'react';
 
 // Define types
 interface CartItem {
-  id: string;
+  id: number;
   name: string;
   price: number;
 }
@@ -35,12 +35,8 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
 };
 
 // CartProvider component
-interface CartProviderProps {
-  children: ReactNode;
-}
-
-const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
-  const [cart, dispatch] = useReducer(cartReducer, { items: [] });
+const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [cart, dispatch] = useReducer(cartReducer, { items: [] } as CartState);
 
   const addItem = (item: CartItem) => {
     dispatch({ type: 'ADD_ITEM', payload: item });
@@ -62,4 +58,5 @@ const useCart = (): CartContextProps => {
   return context;
 };
 
-export { CartContext, useCart, CartProvider };
+export { CartContext, useCart, CartProvider };  export type { CartItem };
+

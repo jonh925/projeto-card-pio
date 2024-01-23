@@ -1,16 +1,20 @@
 'use client'
-import { usePathname,useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
+import { Button, Link } from '@nextui-org/react';
 import CartPage from '../pages/cart';
 import Menu from '../pages/menu';
-import { Button } from '@nextui-org/react';
+
 export default function Routes() {
   const pathname = usePathname()
-  const router = useRouter();
 
   return (
     <div>
-      <Button onClick={() => router.push('/menu')}>Go to Menu</Button>
-      <Button onClick={() => router.push('/cart')}>Go to Cart</Button>
+      <Link href="/menu">
+        <Button>Go to Menu</Button>
+      </Link>
+      <Link href="/cart">
+        <Button>Go to Cart</Button>
+      </Link>
 
       {/* Display the current route content */}
       {pathname === '/menu' && <Menu />}
