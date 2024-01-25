@@ -1,4 +1,4 @@
-'use client'
+ 'use client'
 import React, { createContext, useReducer, useContext, ReactNode } from 'react';
 
 // Define types
@@ -15,19 +15,28 @@ interface CartState {
 interface CartContextProps {
   cart: CartState;
   addItem: (item: CartItem) => void;
+  removeItem: (itemId: number) => void;
+  clearCart: () => void;
 }
 
 // Create context with initial types
 const CartContext = createContext<CartContextProps | undefined>(undefined);
 
 // Define action types
-type CartAction = { type: 'ADD_ITEM'; payload: CartItem };
+type CartAction =
+  | { type: 'ADD_ITEM'; payload: CartItem }
+  | { type: 'REMOVE_ITEM'; payload: number }
+  | { type: 'CLEAR_CART' };
 
 // Reducer function
 const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
     case 'ADD_ITEM':
       return { ...state, items: [...state.items, action.payload] };
+    case 'REMOVE_ITEM':
+      return { items: state.items.filter(item => item.id !== action.payload) };
+    case 'CLEAR_CART':
+      return { items: [] };
     // Add other action types as needed
     default:
       return state;
@@ -42,8 +51,16 @@ const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     dispatch({ type: 'ADD_ITEM', payload: item });
   };
 
+  const removeItem = (itemId: number) => {
+    dispatch({ type: 'REMOVE_ITEM', payload: itemId });
+  };
+
+  const clearCart = () => {
+    dispatch({ type: 'CLEAR_CART' });
+  };
+
   return (
-    <CartContext.Provider value={{ cart, addItem }}>
+    <CartContext.Provider value={{ cart, addItem, removeItem, clearCart }}>
       {children}
     </CartContext.Provider>
   );
@@ -58,5 +75,5 @@ const useCart = (): CartContextProps => {
   return context;
 };
 
-export { CartContext, useCart, CartProvider };  export type { CartItem };
-
+export { CartContext, useCart, CartProvider };  
+export type { CartItem };

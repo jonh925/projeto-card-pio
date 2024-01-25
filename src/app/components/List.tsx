@@ -15,7 +15,7 @@ const MenuList: React.FC<MenuListProps> = ({ menu, onAddToCart, onAddToCartNotif
     : menu;
 
   return (
-    <div>
+    <div className="flex flex-wrap h-90 overflow-hidden">
       {filteredMenuItems.map((item) => (
         <MenuItem
           key={item.id}

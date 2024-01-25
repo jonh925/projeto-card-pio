@@ -1,0 +1,54 @@
+/* nav-bar.css */
+
+.navbar {
+    display: grid;
+    grid-template-columns: auto 1fr auto; /* Adjust this line */
+    align-items: center;
+    background-color: #333;
+    padding: 1rem;
+    color: white;
+  }
+  
+  .brand {
+    font-weight: bold;
+  }
+  
+  .search-form {
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+    justify-content: flex-end; /* Align to the right */
+    box-sizing: border-box;
+  }
+  
+  .search-icon,
+  .cart-icon {
+    margin-right: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  .cart-icon {
+    position: relative;
+  }
+  
+  .cart-icon:hover {
+    color: #ddd;
+  }
+  
+  .badge {
+    position: absolute;
+    top: 0.5rem;
+    right: -0.5rem;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 0.25rem 0.5rem;
+    font-size: 1rem; /* Tamanho do texto ajustado */
+    width: 1.75rem; /* Ajuste o tamanho do círculo conforme necessário */
+    height: 1.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+

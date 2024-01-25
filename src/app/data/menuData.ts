@@ -16,7 +16,7 @@ const menuData: MenuItemType[] = [
   {
     id: 101,
     name: 'Hamburger 1',
-    description: 'Description of Hamburger 1',
+    description: 'Description of Hamburger ',
     image: 'https://img.freepik.com/fotos-gratis/cheeseburguer-grelhado-com-tomate-cebola-e-fritas-gerado-por-ia_188544-43039.jpg',
     price: 10.99,
     category: HAMBURGERS,
@@ -29,6 +29,15 @@ const menuData: MenuItemType[] = [
     price: 12.99,
     category:HAMBURGERS,
   },
+  {
+    id: 108,
+    name: 'Hamburger 2',
+    description: 'Description of Hamburger 2',
+    image: 'https://img.freepik.com/fotos-gratis/um-hamburguer-com-um-copo-de-agua-ao-lado_188544-12233.jpg?w=1060&t=st=1705682841~exp=1705683441~hmac=7e0d070b6065a8d9880686e1a5f10d7c81943d71cfc745c4f87b3a77ca473359',
+    price: 12.99,
+    category:HAMBURGERS,
+  },
+ 
   {
     id: 201,
     name: 'Salad 1',

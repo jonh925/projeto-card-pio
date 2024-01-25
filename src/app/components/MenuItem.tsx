@@ -1,49 +1,71 @@
 // MenuItem.tsx
 
 import React from 'react';
-import { Card, Badge } from '@nextui-org/react';
+import { Card} from '@nextui-org/react';
 import { MenuItemType } from '../data/menuData';
 import { useCart } from '../contexts/CartContext';
 
 interface MenuItemProps {
   item: MenuItemType;
   onAddToCart: (item: MenuItemType) => void;
-  onAddToCartNotification: () => void; // New prop for notifying NavBar
+  onAddToCartNotification: () => void;
 }
 
 const MenuItem: React.FC<MenuItemProps> = ({ item, onAddToCart, onAddToCartNotification }) => {
-  const { addItem } = useCart();
+  const { addItem , removeItem} = useCart();
   const handleAddToCart = () => {
-    addItem(item);
+    addItem({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+    });
     onAddToCartNotification(); // Notify NavBar
   };
 
+  const handleRemoveFromCart = () => {
+    removeItem(item.id);
+  };
+
   return (
-    <div className="container mx-auto p-4">
-      <Card
-        className="max-w-full rounded overflow-hidden shadow-lg bg-gray-900 cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-105 focus:outline-none focus:shadow-outline flex flex-row"
-      >
-        <img src={item.image} alt={item.name} className="w-48 h-48 object-cover" />
-
-        <div className="flex flex-col justify-between px-4 py-2 flex-grow">
-          <div className="flex justify-between mb-2 text-white w-full">
-            <div className="font-bold text-lg">{item.name}</div>
-            <div className="text-lg mt-auto">${item.price}</div>
-          </div>
-          <div className="text-white text-sm flex items-center">{item.description}</div>
-          <div className="text-white text-sm">{item.category.toUpperCase()}</div>
-        </div>
-
-        <div className="px-4 py-2 mt-auto flex-shrink-0">
-          <button
-            className="bg-red-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none active:bg-blue-800"
-            onClick={handleAddToCart} // Corrected function name
+    <div className=" p-4 font-sans overflow-hidden">
+    <Card
+      className="flex-none w-80 mb-4 h-90 rounded overflow-hidden shadow-lg bg-gray-900 cursor-pointer transform transition-transform duration-200 ease-in-out hover:scale-105 focus:outline-none focus:shadow-outline"
+    >
+      {/* Image Section */}
+      <div className="relative w-full">
+        <img
+          src={item.image}
+          alt={item.name}
+          className="w-full h-48 object-cover"
+          loading="lazy"
+        />
+      </div>
+  
+      {/* Product Details */}
+      <div className="p-4">
+        <h1 className="text-2xl font-medium text-white mb-2">{item.name}</h1>
+        <div className="text-lg font-bold text-violet-600 mb-2">${item.price}</div>
+        <div className="text-sm text-slate-500 mb-4">{item.description}</div>
+        <div className="text-sm font-medium text-slate-400 mb-4">In stock</div>
+  
+        {/* Action Buttons */}
+        <div className="flex space-x-4 text-sm font-medium">
+         <button
+            className="h-10 px-6 font-semibold rounded-full hover:bg-red-700 bg-orange-600 text-white"
+            onClick={handleAddToCart}
           >
-            ADICIONAR AO PEDIDO
+            Add to cart
+          </button>
+          <button
+            className="h-10 px-6 font-semibold rounded-full hover:bg-red-700 bg-red-600 text-white"
+            onClick={handleRemoveFromCart}
+          >
+            Remove cart
           </button>
         </div>
-      </Card>
-    </div>
+      </div>
+    </Card>
+  </div>
   );
 };
 

@@ -4,7 +4,6 @@ import SidebarLateral from './components/header/sidebar-lateral';
 import menuData, { MenuItemType } from './data/menuData';
 import MenuList from './components/List';
 import Notification from './components/Notification'; // Importe o componente de notificação
-
 const App: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [showNotification, setShowNotification] = useState(false);
@@ -34,9 +33,8 @@ const App: React.FC = () => {
         {/* Sidebar */}
         <SidebarLateral onCategoryClick={handleCategoryClick} menu={[]} onAddToCart={handleAddToCart} />
       </div>
-      <main className="w-3/4 p-4 bg-gray-500">
+      <main className=" p-4 w-full bg-gray-500">
         {/* Main Content */}
-        <h2>Menu</h2>
         {filteredMenu.length > 0 ? (
           <MenuList
             menu={filteredMenu}
@@ -44,7 +42,7 @@ const App: React.FC = () => {
             onAddToCartNotification={handleAddToCartNotification}
           />
         ) : (
-          <p>Nenhum item encontrado para a categoria selecionada.</p>
+          <span className=" w-full">Nenhum item encontrado para a categoria selecionada.</span>
         )}
       </main>
       {/* Componente de Notificação */}

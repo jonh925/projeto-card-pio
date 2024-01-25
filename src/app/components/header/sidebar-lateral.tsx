@@ -59,7 +59,7 @@ const SidebarLateral: React.FC<SidebarProps> = ({ menu, onAddToCart, onCategoryC
         )}
       </div>
       <div className="cursor-pointer hover:bg-orange-500">
-        <AiOutlineGift className="text-orange-500 text-xl" /> <span className="text-lg">Ofertas</span>
+        <AiOutlineGift className="text-red-500 text-xl" /> <span className="text-lg">Ofertas</span>
       </div>
     </div>
   );

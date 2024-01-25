@@ -1,11 +1,10 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link as NextUILink, Badge } from "@nextui-org/react";
 import { FaShoppingCart, FaSearch } from 'react-icons/fa';
-import Cart from '../../components/Cart';
 import CartModal from '../../components/CartModal'; // Importe o CartModal
+import { Badge} from '@nextui-org/react';
 import { useCart, CartItem } from '../../contexts/CartContext';
-
+import "./styles/nav-bar.css"
 const NavBar: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const { cart } = useCart();
@@ -35,46 +34,30 @@ const NavBar: React.FC = () => {
     setCartItemCount(itemCount);
   }, [cart]);
 
-  return (
-    <Navbar className="bg-gray-800 p-4">
-      <NavbarBrand>
-        <p className="font-bold text-white">YourBrand</p>
-      </NavbarBrand>
-      <NavbarContent>
-        <ul className="flex space-x-6">
-          {/* ... other NavbarItems */}
-          <NavbarItem className="ml-auto">
-            <form onSubmit={handleSearchSubmit} className="flex items-center">
-              <FaSearch className="text-white mr-2" />
-              <input
-                type="text"
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={handleSearchChange}
-                className="px-2 py-1 bg-gray-700 text-white border-none rounded-md focus:outline-none"
-              />
-            </form>
-          </NavbarItem>
-          <NavbarItem className="ml-auto">
-            {/* Cart Icon with Count Indicator */}
-            <div className="relative" onClick={handleOpenCartModal}>
-              <FaShoppingCart className="text-white cursor-pointer" />
-              {cartItemCount > 0 && <Badge color="danger" className="absolute -top-1 -right-1">{cartItemCount}</Badge>}
-            </div>
-          </NavbarItem>
-        </ul>
-      </NavbarContent>
+   return (
+    <div className="navbar shadow-md bg-gray-800">
+      <div className="brand">YourBrand</div>
+      <div className="search-form">
+        <FaSearch className="search-icon" />
+      <form onSubmit={handleSearchSubmit} className="h-full">
+        <input
+         type="search"
+         placeholder=" to search..."
+         value={searchTerm}
+         onChange={handleSearchChange}
+        className="w-full h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20 p-2 transition duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring focus:ring-orange-500 hover:border-orange-500"
+       />
+     </form>
+       </div>
+      <div className="cart-icon" onClick={handleOpenCartModal}>
+        <Badge>
+        <FaShoppingCart className='text-x2' />
+        {cartItemCount> 0 && <div className='badge'>{cartItemCount}</div>}
+        </Badge>
+      </div>
 
-      {/* Renderiza o CartModal */}
       <CartModal open={isCartModalOpen} onClose={handleCloseCartModal} />
-
-      {/* Renderiza o componente Cart (pode ser removido se não for mais necessário) */}
-      <Cart
-        onAddToCart={() => {}}
-        onAddToCartNotification={() => {}}
-        onCartUpdate={() => {}} // Placeholder functions
-      />
-    </Navbar>
+    </div>
   );
 };
 
