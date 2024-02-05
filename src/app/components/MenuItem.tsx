@@ -1,18 +1,28 @@
 // MenuItem.tsx
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card} from '@nextui-org/react';
 import { MenuItemType } from '../data/menuData';
 import { useCart } from '../contexts/CartContext';
+import Rating from './StarRating';
 
 interface MenuItemProps {
   item: MenuItemType;
   onAddToCart: (item: MenuItemType) => void;
   onAddToCartNotification: () => void;
+  
 }
 
 const MenuItem: React.FC<MenuItemProps> = ({ item, onAddToCart, onAddToCartNotification }) => {
   const { addItem , removeItem} = useCart();
+  const [rating, setRating] = useState(0);
+  
+  const handleRatingChange = (newRating: number) => {
+    // Aqui você pode lidar com a mudança de avaliação do item,
+    // como enviar para o backend, atualizar o estado local, etc.
+    setRating(newRating);
+  };
+  
   const handleAddToCart = () => {
     addItem({
       id: item.id,
@@ -46,18 +56,21 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, onAddToCart, onAddToCartNotif
         <h1 className="text-2xl font-medium text-white mb-2">{item.name}</h1>
         <div className="text-lg font-bold text-violet-600 mb-2">${item.price}</div>
         <div className="text-sm text-slate-500 mb-4">{item.description}</div>
-        <div className="text-sm font-medium text-slate-400 mb-4">In stock</div>
+        <div className="flex space-x-2 items-center mb-4">
+          <span className="text-white font-semibold">Avaliação:</span>
+          <Rating initialValue={rating} onChange={handleRatingChange} />
+        </div>
   
         {/* Action Buttons */}
         <div className="flex space-x-4 text-sm font-medium">
          <button
-            className="h-10 px-6 font-semibold rounded-full hover:bg-red-700 bg-orange-600 text-white"
+            className="h-10 px-6 font-semibold rounded-full hover:bg-red-700 bg-violet-600 text-white"
             onClick={handleAddToCart}
           >
             Add to cart
           </button>
           <button
-            className="h-10 px-6 font-semibold rounded-full hover:bg-red-700 bg-red-600 text-white"
+            className="h-10 px-6 font-semibold rounded-full hover:bg-red-700 bg-violet-600 text-white"
             onClick={handleRemoveFromCart}
           >
             Remove cart
@@ -70,3 +83,4 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, onAddToCart, onAddToCartNotif
 };
 
 export default MenuItem;
+

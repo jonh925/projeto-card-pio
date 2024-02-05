@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import SidebarLateral from './components/header/sidebar-lateral';
 import menuData, { MenuItemType } from './data/menuData';
-import MenuList from './components/List';
+import MenuList from './components/menuList';
 import Notification from './components/Notification'; // Importe o componente de notificação
 const App: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
@@ -28,11 +28,9 @@ const App: React.FC = () => {
   const filteredMenu = menuData.filter((item) => item.category === selectedCategory);
 
   return (
-    <div className="flex">
-      <div className="">
+    <div className="flex ">
         {/* Sidebar */}
         <SidebarLateral onCategoryClick={handleCategoryClick} menu={[]} onAddToCart={handleAddToCart} />
-      </div>
       <main className=" p-4 w-full bg-gray-500">
         {/* Main Content */}
         {filteredMenu.length > 0 ? (

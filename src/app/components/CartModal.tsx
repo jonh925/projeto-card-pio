@@ -82,7 +82,7 @@ const CartModal: React.FC<CartModalProps> = ({ open, onClose }) => {
                 onClick={() => {
                   // Lógica para finalizar a compra
                   // Pode incluir redirecionamento para uma página de checkout, etc.
-                  console.log("Compra finalizada!");
+                  alert("Compra finalizada!");
                 }}
               >
                 Finalizar Compra

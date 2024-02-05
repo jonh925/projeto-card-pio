@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import MenuList from '../components/List';
+import MenuList from '../components/menuList';
 import { MenuItemType } from '../data/menuData';
 import Link from 'next/link';
 import menuData from '../data/menuData';
