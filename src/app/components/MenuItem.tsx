@@ -11,6 +11,7 @@ interface MenuItemProps {
   onAddToCart: (item: MenuItemType) => void;
   onAddToCartNotification: () => void;
   
+  
 }
 
 const MenuItem: React.FC<MenuItemProps> = ({ item, onAddToCart, onAddToCartNotification }) => {

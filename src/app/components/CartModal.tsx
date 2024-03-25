@@ -1,18 +1,19 @@
-// CartModal.tsx
 import React, { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useCart } from '../contexts/CartContext';
-import { Button } from '@nextui-org/react';
+import { Button, Input } from '@nextui-org/react';
 
-interface CartModalProps {
+interface CheckoutModalProps {
   open: boolean;
   onClose: () => void;
 }
 
-const CartModal: React.FC<CartModalProps> = ({ open, onClose }) => {
+const CheckoutModal: React.FC<CheckoutModalProps> = ({ open, onClose }) => {
   const [isClosing, setIsClosing] = useState(false);
   const { cart, clearCart, removeItem } = useCart();
+  const [customerName, setCustomerName] = useState('');
+  const [isOrderConfirmed, setIsOrderConfirmed] = useState(false);
 
   const handleClose = () => {
     setIsClosing(true);
@@ -20,6 +21,16 @@ const CartModal: React.FC<CartModalProps> = ({ open, onClose }) => {
       onClose();
       setIsClosing(false);
     }, 300);
+  };
+
+  const handleConfirmOrder = () => {
+    if (!customerName.trim()) {
+      alert('Por favor, insira seu nome antes de confirmar o pedido.');
+      return;
+    }
+    alert(`Pedido confirmado para ${customerName}!`);
+    clearCart(); // Limpar o carrinho após o pedido ser confirmado
+    setIsOrderConfirmed(true); // Marcar o pedido como confirmado
   };
 
   // Função para calcular o total dos itens no carrinho
@@ -35,8 +46,6 @@ const CartModal: React.FC<CartModalProps> = ({ open, onClose }) => {
         onClose={handleClose}
       >
         <div className="min-h-screen px-4 text-center">
-          {/* ... (código anterior) */}
-          
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -46,16 +55,16 @@ const CartModal: React.FC<CartModalProps> = ({ open, onClose }) => {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <div className="inline-block align-middle my-16 p-6 text-left bg-neutral-600 rounded-lg shadow-xl transform transition-all">
-              <Dialog.Title className="text-lg font-medium leading-6 text-gray-200">
-                Seu Carrinho
+            <div className="inline-block align-middle my-16 p-6 text-left bg-gray-300 rounded-lg shadow-xl transform transition-all">
+              <Dialog.Title className="text-lg font-medium leading-6 text-gray-900 mb-4">
+                Checkout
               </Dialog.Title>
 
-              {/* Exibe os itens do carrinho usando o contexto */}
+              {/* Exibe os itens do carrinho */}
               {cart.items.map((cartItem) => (
-                <div key={cartItem.id} className="flex justify-between items-center mb-2 p-2 bg-gray-800 text-white rounded">
+                <div key={cartItem.id} className="flex justify-between items-center mb-2 p-2 bg-violet-500 text-black rounded">
                   <div>
-                    {cartItem.name} - ${cartItem.price}
+                    <span className="font-semibold">{cartItem.name}</span> - ${cartItem.price}
                   </div>
                   <button
                     className="text-red-500 hover:text-red-700 focus:outline-none"
@@ -64,33 +73,42 @@ const CartModal: React.FC<CartModalProps> = ({ open, onClose }) => {
                       removeItem(cartItem.id);
                     }}
                   >
-                    <span className="sr-only">Remover</span>
-                    <XMarkIcon className="w-6 h-6" />
+                    <XMarkIcon className="w-5 h-5" />
                   </button>
                 </div>
               ))}
 
               {/* Exibe o total dos itens no carrinho */}
-              <div className="mt-4 text-lg font-semibold text-gray-200">
+              <div className="mt-4 text-lg font-semibold text-gray-900">
                 Total: ${calculateTotal().toFixed(2)}
               </div>
 
-              {/* Botão para finalizar a compra */}
-              <div className='grid'>
-              <Button
-                className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none"
-                onClick={() => {
-                  // Lógica para finalizar a compra
-                  // Pode incluir redirecionamento para uma página de checkout, etc.
-                  alert("Compra finalizada!");
-                }}
-              >
-                Finalizar Compra
-              </Button>
+              {/* Formulário para inserir o nome do cliente */}
+              <input
+                value={customerName}
+                onChange={(e) => setCustomerName(e.target.value)}
+                placeholder="Seu nome"
+                className="w-full p-3 mt-4 text-black font-sans rounded border-gray-300"
+              />
+
+              {/* Botão para confirmar o pedido */}
+              {!isOrderConfirmed && (
+                <Button
+                  className="mt-4 w-full bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none"
+                  onClick={handleConfirmOrder}
+                >
+                  Confirmar Pedido
+                </Button>
+              )}
+
+              {/* Mensagem de sucesso após o pedido ser confirmado */}
+              {isOrderConfirmed && (
+                <p className="mt-4 text-green-700">Pedido confirmado com sucesso!</p>
+              )}
 
               {/* Botão para limpar o carrinho */}
               <Button
-                className="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none"
+                className="mt-2 w-full bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none"
                 onClick={() => {
                   // Chama a função para limpar o carrinho
                   clearCart();
@@ -98,17 +116,16 @@ const CartModal: React.FC<CartModalProps> = ({ open, onClose }) => {
               >
                 Limpar Carrinho
               </Button>
-              </div>
 
+              {/* Botão para fechar o modal */}
               <div className="mt-4">
-                <button
+                <Button
                   type="button"
-                  className="text-gray-500 hover:text-gray-700 focus:outline-none"
+                  className="text-gray-500 hover:text-gray-800 focus:outline-none"
                   onClick={handleClose}
                 >
-                  <span className="sr-only">Fechar</span>
-                  <XMarkIcon className="w-6 h-6" />
-                </button>
+                  Fechar
+                </Button>
               </div>
             </div>
           </Transition.Child>
@@ -118,4 +135,4 @@ const CartModal: React.FC<CartModalProps> = ({ open, onClose }) => {
   );
 };
 
-export default CartModal;
+export default CheckoutModal;

@@ -13,6 +13,7 @@ interface SidebarProps {
 const SidebarLateral: React.FC<SidebarProps> = ({ menu, onAddToCart, onCategoryClick }) => {
   const [submenuVisible, setSubmenuVisible] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [showFeatured, setShowFeatured] = useState(false);
 
   const toggleSubmenu = () => {
     setSubmenuVisible(!submenuVisible);
@@ -20,13 +21,38 @@ const SidebarLateral: React.FC<SidebarProps> = ({ menu, onAddToCart, onCategoryC
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
+    setShowFeatured(false); // Reset para garantir que apenas uma seção seja expandida por vez
   };
+
+  const handleShowFeaturedClick = () => {
+    setShowFeatured(!showFeatured);
+    setSelectedCategory(''); // Reset para garantir que apenas uma seção seja expandida por vez
+  };
+
+  const featuredItems = menu.filter(item => item.isFeatured);
 
   return (
     <div className="w-64 bg-gray-800 text-white p-4 min-h-screen flex flex-col relative">
-      <div className="cursor-pointer mb-4 hover:bg-orange-500">
-        <AiFillStar className="text-yellow-500 text-xl" /> <span className="text-lg">Destaque</span>
+      <div className="cursor-pointer mb-4 hover:bg-orange-500" onClick={handleShowFeaturedClick} >
+        <AiFillStar className="text-yellow-500 text-xl" /> <span className="text-lg">Destaque</span> 
       </div>
+
+      {showFeatured && (
+        <div className="p-2">
+          {featuredItems.map((item) => (
+            <div
+              key={item.id}
+              className="cursor-pointer mb-2 flex items-center hover:bg-orange-500 p-2 rounded-md"
+              onClick={() => onAddToCart(item)}
+            >
+              {/* Renderize o ícone e o nome do item, por exemplo */}
+              <span>{item.name}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      
       <div className="cursor-pointer mb-4 hover:bg-orange-500 relative" onClick={toggleSubmenu}>
         <AiOutlineMenu className="text-blue-500 text-xl" /> <span className="text-lg">Cardápio</span>
         {submenuVisible && (

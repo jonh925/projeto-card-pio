@@ -44,7 +44,6 @@ const App: React.FC = () => {
         )}
       </main>
       {/* Componente de Notificação */}
-      {/* Componente de Notificação */}
       {showNotification && <Notification message="Item adicionado ao carrinho!" onClose={() => setShowNotification(false)} />}
     </div>
   );

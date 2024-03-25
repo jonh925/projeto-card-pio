@@ -9,7 +9,7 @@ interface CartProps {
 }
 
 const Cart: React.FC<CartProps> = ({ onAddToCart, onAddToCartNotification, onCartUpdate }) => {
-  const { cart, addItem } = useCart();
+  const { cart, addItem ,removeItem} = useCart();
   const [isNotificationVisible, setIsNotificationVisible] = useState(false);
   const [notificationTimeout, setNotificationTimeout] = useState<number | null>(null);
 

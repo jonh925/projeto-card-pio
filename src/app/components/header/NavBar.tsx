@@ -5,6 +5,7 @@ import CartModal from '../../components/CartModal'; // Importe o CartModal
 import {Navbar, Badge} from '@nextui-org/react';
 import { useCart, CartItem } from '../../contexts/CartContext';
 import "./styles/nav-bar.css"
+
 const NavBar: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const { cart } = useCart();
@@ -64,7 +65,6 @@ const NavBar: React.FC = () => {
         {cartItemCount> 0 && <div className='badge'>{cartItemCount}</div>}
         </Badge>
       </div>
-
       <CartModal open={isCartModalOpen} onClose={handleCloseCartModal} />
     </div>
   );
